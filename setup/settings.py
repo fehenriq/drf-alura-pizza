@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+import django_heroku
 import os
 from pathlib import Path
 
@@ -44,7 +45,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.common.CommonMiddleware'
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -112,8 +113,8 @@ USE_I18N = True
 USE_TZ = True
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-    'https://react-drf-alura-pizza.vercel.app'
+    "http://127.0.0.1:3000",
+    "https://react-drf-alura-pizza.vercel.app"
 ]
 
 # Static files (CSS, JavaScript, Images)
@@ -134,5 +135,10 @@ if 'DATABASE_URL' in os.environ:
     DATABASES = {'default': dj_database_url.config()}
 
 # Configure Django App for Heroku.
-import django_heroku
 django_heroku.settings(locals())
+
+# Configure Django app for AWS
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_ACCESS_KEY_ID = 'AKIAU4235HOJPVR3RFGG'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'felipe-alura-pizza-imagens'
